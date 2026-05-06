@@ -1,0 +1,1 @@
+/home/klix_01/blockchain-mentorship/mentorship/solana-rust/Excercises/excercise_5/target/debug/excercise_5: /home/klix_01/blockchain-mentorship/mentorship/solana-rust/Excercises/excercise_5/src/main.rs
