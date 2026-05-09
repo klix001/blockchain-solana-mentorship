@@ -33,7 +33,6 @@ enum UserRole{
 
     impl FromStr for UserRole{
         type Err = String;
-
         fn from_str(role:&str)->Result<Self, Self::Err>{
             match role.to_lowercase().as_str(){
                 "student" =>Ok(UserRole::Student),
@@ -129,6 +128,19 @@ impl Student{
         }
     }
 
+    fn student_score(&self)->f64{
+        let score: f64 = loop{ match user_input().parse::<f64>(){
+        Ok(score) => break score,
+        Err(_) => {
+            println!("Enter a valid score");
+            continue
+            }
+        };
+    };
+    self.score = score;
+    self.score
+}   
+
     fn pass_status(&self){
         let pass_threshold = 50.0;
         if self.score >= pass_threshold{
@@ -155,6 +167,7 @@ impl Student{
         self.score = new_score;
 
     }
+    
     fn grade(&self){
         let score = self.score;
         if score >= 70.0{
@@ -175,9 +188,16 @@ impl Student{
         println!("Enter your name");
         let name: String = user_input();
         println!("Enter your age");
-        let age: u32 = user_input().parse().expect("Invalid input");
+    let age: u32 = loop{ match user_input().parse::<u32>(){
+        Ok(age) => break age,
+        Err(_) => {
+            println!("Enter a valid age ");
+            continue
+        }
+    };
+};
         println!("Enter your score");
-        let score: f64 = user_input().parse().expect("Invalid input");
+        let score = Student::student_score();
         let mut student1:Student = Student::new(name, age, score);
         loop{
             println!("***************STUDENT MENU****************");
