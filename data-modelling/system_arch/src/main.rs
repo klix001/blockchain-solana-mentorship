@@ -25,6 +25,30 @@ fn user_input()->String{
     input.trim().to_string()
 }
 
+fn student_score()->f64{
+        let score: f64 = loop{ match user_input().parse::<f64>(){
+        Ok(score) => break score,
+        Err(_) => {
+            println!("Enter a valid score");
+            continue
+            }
+        };
+    };
+    score
+}  
+
+fn student_age()->u32{
+    let age: u32 = loop{ match user_input().parse::<u32>(){
+        Ok(age) => break age,
+        Err(_) => {
+            println!("Enter a valid age ");
+            continue
+            }
+        };
+    };
+    age
+}
+
 //String to UserRoleType
 enum UserRole{
         Admin,
@@ -126,20 +150,7 @@ impl Student{
             age,
             score,
         }
-    }
-
-    fn student_score(&self)->f64{
-        let score: f64 = loop{ match user_input().parse::<f64>(){
-        Ok(score) => break score,
-        Err(_) => {
-            println!("Enter a valid score");
-            continue
-            }
-        };
-    };
-    self.score = score;
-    self.score
-}   
+    } 
 
     fn pass_status(&self){
         let pass_threshold = 50.0;
@@ -151,19 +162,34 @@ impl Student{
         }
     }
 
+    fn search_student(student_record:&mut Vec<Student>)->Option<&String>{
+        println!("Enter student name");
+        let target:String = user_input();
+        for student in student_record{
+            if target == student.name{
+                println!("Enter new score");
+                let new_score:f64 = student_score();
+                student.score = new_score;
+                return Some(&student.name);
+
+            }
+        }
+        None
+    }
+
     fn add_student()->Student{
         println!("Enter student name");
         let name:String = user_input();
          println!("Enter student age");
-        let age:u32 = user_input().parse().expect("Invalid input");
+        let age:u32 = student_age();
          println!("Enter student score");
-        let score:f64 = user_input().parse().expect("Invalid input");
+        let score:f64 = student_score();
         Student::new(name, age, score)
     }
 
     fn update_student_score(&mut self){
         println!("Enter new score");
-        let new_score:f64 = user_input().parse().expect("Invalid input");
+        let new_score:f64 = student_score();
         self.score = new_score;
 
     }
@@ -188,16 +214,9 @@ impl Student{
         println!("Enter your name");
         let name: String = user_input();
         println!("Enter your age");
-    let age: u32 = loop{ match user_input().parse::<u32>(){
-        Ok(age) => break age,
-        Err(_) => {
-            println!("Enter a valid age ");
-            continue
-        }
-    };
-};
+        let age = student_age();
         println!("Enter your score");
-        let score = Student::student_score();
+        let score = student_score();
         let mut student1:Student = Student::new(name, age, score);
         loop{
             println!("***************STUDENT MENU****************");
@@ -256,21 +275,11 @@ fn admin_menu(){
         match admin_acton {
             AdminAction::Exit => break,
             AdminAction::UpdateStudent => {
-                let mut found:bool = false;
-                println!("Enter the name of student");
-                let target_student:String = user_input();
-                for student in &mut student_record{
-                    if target_student == student.name {
-                        found = true;
-                        println!("Enter new score");
-                        let new_score:f64 = user_input().parse().expect("Invalid score");
-                        student.score = new_score;
-                    }
-                };
-                if !found {
-                    println!("Student not found");
+                match Student::search_student(&mut student_record){
+                    Some(name) => println!("score updated for: {}",name),
+                    None => println!("User not found"),
                 }
-            }
+            },
             AdminAction::MaxScore => {
                 let mut max:f64 = 0.0;
                 for student in &student_record{
