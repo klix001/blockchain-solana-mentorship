@@ -1,0 +1,29 @@
+{
+  "students": [
+    {
+      "name": "kelly",
+      "age": 33,
+      "score": 40.0
+    },
+    {
+      "name": "kelvin",
+      "age": 21,
+      "score": 80.0
+    },
+    {
+      "name": "Joel",
+      "age": 33,
+      "score": 85.0
+    },
+    {
+      "name": "kenneth",
+      "age": 21,
+      "score": 50.0
+    },
+    {
+      "name": "divine",
+      "age": 21,
+      "score": 90.0
+    }
+  ]
+}

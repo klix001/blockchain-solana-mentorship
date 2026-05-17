@@ -3,9 +3,6 @@ use std::str::FromStr;
 
 fn main() {
     let mut student_record:Vec<Student> = vec!();
-    let mut student1:Student = Student::new(String::from("kelvin"), 20, 50.0);
-    println!("{:#?}", student1);
-    student_record.push(student1);
     menu()
 }
 

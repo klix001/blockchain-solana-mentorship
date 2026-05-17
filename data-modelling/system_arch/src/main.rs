@@ -177,6 +177,19 @@ impl Student{
         None
     }
 
+    fn class_average(student_record:&Vec<Student>)->Option<f64>{
+        let mut total = 0.0;
+        for student in student_record{
+            total +=student.score;
+        }
+        if total == 0.0{
+            return None;
+        }
+        else{
+            return Some(total/student_record.len() as f64);
+        }
+    }
+
     fn add_student()->Student{
         println!("Enter student name");
         let name:String = user_input();
@@ -290,12 +303,11 @@ fn admin_menu(){
                 println!("the max is: {}", max);
             },
             AdminAction::ClassAverage =>{
-                let mut total:f64 = 0.0;
-                for student in &student_record{
-                    total +=student.score;
+                let average = Student::class_average(&student_record);
+                match average {
+                    Some(average) => println!("The class average is : {}", average),
+                    None => println!("No student in record"),
                 }
-                let average:f64 = total/student_record.len() as f64;
-                println!("Average: {}", average);
             },
             AdminAction::ListStudent => {
                 for student in &student_record{
