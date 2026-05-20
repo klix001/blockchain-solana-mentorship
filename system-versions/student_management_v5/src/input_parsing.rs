@@ -9,8 +9,8 @@ pub fn user_input()->String{
     input.trim().to_string()
 }
 
-pub fn read_u32(){
-    let integers:u32 = loop{
+pub fn read_u32()->u32{
+    let integer:u32 = loop{
         match user_input().parse::<u32>(){
             Ok(value) => break value,
             Err(_) => {
@@ -19,11 +19,11 @@ pub fn read_u32(){
             }
         }
     };
-
+    integer
 }
 
-pub fn read_f64(){
-    let integers:f64 = loop{
+pub fn read_f64()->f64{
+    let decimal:f64 = loop{
         match user_input().parse::<f64>(){
             Ok(value) => break value,
             Err(_) => {
@@ -32,5 +32,5 @@ pub fn read_f64(){
             }
         }
     };
-
+    decimal
 }

@@ -5,6 +5,7 @@ mod storage;
 mod manager;
 mod student;
 mod student_behaviour;
+mod student_manager_methods;
 use crate::routing::route_user;
 
 

@@ -1,5 +1,5 @@
 use serde::{Serialize, Deserialize};
-use crate::storage::load_database;
+
 
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -10,9 +10,20 @@ pub struct Student{
 }
 
 impl Student{
-    fn new(name:String, age:u32, score:f64)->Self{
+    pub fn new(name:String, age:u32, score:f64)->Self{
         Self{
             name, age, score
         }
+    }
+}
+
+use std::fmt;
+
+impl fmt::Display for Student {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f,
+            "Name:  {}\nAge:   {}\nScore: {}",
+            self.name, self.age, self.score
+        )
     }
 }

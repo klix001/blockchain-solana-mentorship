@@ -1,6 +1,6 @@
 use serde::{Serialize, Deserialize};
 use crate::student::Student;
-use crate::input_parsing::{user_input, read_u32, read_f64};
+use crate::input_parsing::user_input;
 use crate::storage::load_database;
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -16,11 +16,7 @@ impl StudentManager{
     }
 
     pub fn student_manager(&mut self){
-        loop{
-            println!("*************STUDENT MANAGER MENU****************");
-            println!("Enter the following option");
-            
-        };
+        self.admin_menu();
         
     }
 
@@ -34,7 +30,7 @@ impl StudentManager{
         match student_record.students.iter().find(|x| x.name.to_lowercase() == user_name){
             Some(student) => {
                     println!("************{} PERSONAL DASHBOARD****************", student.name.to_uppercase());
-                    student.student_menu(&student_record);                
+                    student.student_menu();                
             },
             None => {
                 println!("{} not found in record", user_name);

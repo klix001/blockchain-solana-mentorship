@@ -1,17 +1,13 @@
 use crate::student::Student;
 use crate::input_parsing::user_input;
-use crate::manager::StudentManager;
 use crate::model::StudentAction;
 
 
 impl Student{
 
-    pub fn student_menu(&self, student_record:&StudentManager){
-        let records = student_record;
-        
-            
+    pub fn student_menu(&self){
         loop{
-            println!("************ student portal menu **************");
+            println!("************ student menu **************");
             println!("Enter the following options");
             println!("Option 1: view profile");
             println!("Option 2: pass report");
@@ -67,7 +63,6 @@ impl Student{
                 }
             }
             StudentAction::Exit => break,
-            _ => println!("Enter a valid option"),
         }
 
         };

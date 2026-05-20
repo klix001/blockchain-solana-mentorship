@@ -1,8 +1,7 @@
 use crate::model::Route;
 use crate::input_parsing::user_input;
 use  crate::manager::StudentManager;
-use crate::student::Student;
-use crate::storage::{load_database, save};
+use crate::storage::load_database;
 
 
 pub fn route_user(){

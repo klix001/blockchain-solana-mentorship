@@ -1,4 +1,4 @@
-use serde::{Serialize, Deserialize};
+
 use std::str::FromStr;
 
 pub enum Route {
@@ -36,7 +36,7 @@ impl FromStr for AdminAction {
         match action.to_lowercase().as_str() {
             "add student"        => Ok(AdminAction::AddStudent),
             "view student"       => Ok(AdminAction::ViewStudent),
-            "average"            => Ok(AdminAction::ClassAverage),
+            "class average"            => Ok(AdminAction::ClassAverage),
             "delete student"     => Ok(AdminAction::Delete),
             "update score"       => Ok(AdminAction::UpdateScore),
             "pass report"        => Ok(AdminAction::PassStatus),
