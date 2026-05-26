@@ -3,6 +3,8 @@ use crate::input_parsing::{user_input, read_f64, read_u32};
 use crate::model::AdminAction;
 use crate::storage::save;
 use crate::student::Student;
+use crate::teacher::Teacher;
+use crate::traits::{ListStudent, UpdateScore};
 
 impl StudentManager{
     pub fn admin_menu(&mut self){
@@ -11,7 +13,8 @@ impl StudentManager{
             println!("*************STUDENT MANAGER MENU****************");
             println!("Enter the following option");
             println!("Option 1: add student");
-            println!("Option 2: view student");
+            println!("Option 1: add teacher");
+            println!("Option 2: class list");
             println!("Option 3: class average");
             println!("Option 4: delete student");
             println!("Option 5: update score");
@@ -35,7 +38,7 @@ impl StudentManager{
                     self.class_report();
                 }
                 AdminAction::UpdateScore => {
-                    self.upadate_score();
+                    self.update_score();
                 }
                 AdminAction::Delete =>{
                     self.delete_student();
@@ -46,13 +49,14 @@ impl StudentManager{
                 AdminAction::ViewStudent => {
                     self.view_students();
                 }
+                AdminAction::AddTeacher => {
+                    self.add_teacher();
+                }
                 AdminAction::Exit => break,
                 _ => {
                     println!("Action not implemented yet");
-                }
+                }              
             }
-
-
         };
     }
 
@@ -69,15 +73,21 @@ impl StudentManager{
         println!("Successfully added {}",name);
     }
 
+    fn add_teacher(&mut self){
+        println!("Enter teacher ID");
+        let id = user_input().to_uppercase();
+        println!("Enter department");
+        let department = user_input();
+        println!("Enter course code");
+        let course = user_input().to_uppercase();
+        let new_teacher:Teacher= Teacher::new(id.clone(), department, course);
+        self.teachers.push(new_teacher);
+        let _= save(&self);
+        println!("Successfully added lecturer Id: {}",id);
+    }
+
     fn view_students(&self){
-        let students:Vec<&Student> = self.students.iter().map(|x| x).collect();
-        let mut count = 0;
-        for student in students {
-            count +=1;
-            println!("===========Student {}=============", count);
-            println!("{}", student);
-        }
-        println!("total number student: {}\n", count);
+        self.list_student();
     }
 
     fn class_average(&self){
@@ -101,24 +111,6 @@ impl StudentManager{
         }
     }
 
-    fn upadate_score(&mut self){
-        println!("Enter student name");
-        let name = user_input();
-        let student = self.students.iter_mut().find(|x| x.name.to_lowercase() == name.to_lowercase());
-        match student {
-            Some(student) => {
-                println!("Enter new score");
-                let new_score:f64 = read_f64();
-                student.score = new_score;
-                let _=save(&self);
-                println!("{} score has been Successfully updated\n", name);
-            }
-            None => {
-                println!("{} not found in student record", name);
-            }
-        }
-    }
-
     // I WILL REWRITE THIS PART LATTER I JUST WANT IT TO COMPILE NOW( seperate logic from display for testability)
     fn class_report(&self){
         let pass_student:Vec<String> = self.students.iter()
@@ -139,7 +131,6 @@ impl StudentManager{
         .map(|x| x.name.clone())
         .collect();
         self.report_formater(scholarship, "scholarship Student");
-
     }
 
     fn report_formater(&self,student_status:Vec<String>, label:&str){
@@ -156,5 +147,4 @@ impl StudentManager{
             println!("{}: No student {}\n", label, label);
         }
     }
-    
 }

@@ -4,6 +4,7 @@ use std::str::FromStr;
 pub enum Route {
     Student,
     StudentManager,
+    Teacher,
 }
 
 impl FromStr for Route {
@@ -12,7 +13,8 @@ impl FromStr for Route {
     fn from_str(route: &str) -> Result<Self, Self::Err> {
         match route.to_lowercase().as_str() {
             "student"         => Ok(Route::Student),
-            "student manager" => Ok(Route::StudentManager),
+            "admin" => Ok(Route::StudentManager),
+            "teacher"         => Ok(Route::Teacher),
             _                 => Err(String::from("Enter a valid role")),
         }
     }
@@ -20,6 +22,7 @@ impl FromStr for Route {
 
 pub enum AdminAction {
     AddStudent,
+    AddTeacher,
     ViewStudent,
     ClassAverage,
     Delete,
@@ -35,8 +38,9 @@ impl FromStr for AdminAction {
     fn from_str(action: &str) -> Result<Self, Self::Err> {
         match action.to_lowercase().as_str() {
             "add student"        => Ok(AdminAction::AddStudent),
-            "view student"       => Ok(AdminAction::ViewStudent),
-            "class average"            => Ok(AdminAction::ClassAverage),
+            "add teacher"        => Ok(AdminAction::AddTeacher),
+            "class list"       => Ok(AdminAction::ViewStudent),
+            "class average"      => Ok(AdminAction::ClassAverage),
             "delete student"     => Ok(AdminAction::Delete),
             "update score"       => Ok(AdminAction::UpdateScore),
             "pass report"        => Ok(AdminAction::PassStatus),
@@ -68,6 +72,31 @@ impl FromStr for StudentAction{
             "grade" => Ok(StudentAction::Grade),
             "exit" =>Ok(StudentAction::Exit),
             _ => Err(format!("Invalid student action")),
+        }
+    }
+}
+
+pub enum TeacherAction{
+    UpdateScore,
+    GenerateReport,
+    ClassList,
+    Evaluation,
+    ClassStatistics,
+    Exit,
+}
+
+impl FromStr for TeacherAction{
+    type Err = String;
+
+    fn from_str(action:&str)->Result<Self, Self::Err>{
+        match action.to_lowercase().as_str(){
+            "update score" => Ok(TeacherAction::UpdateScore),
+            "generate report" => Ok(TeacherAction::GenerateReport),
+            "class list" => Ok(TeacherAction::ClassList),
+            "evaluation" => Ok(TeacherAction::Evaluation),
+            "class stat" => Ok(TeacherAction::ClassStatistics),
+            "exit" =>Ok(TeacherAction::Exit),
+            _ => Err(format!("Invalid teacher action")),
         }
     }
 }
