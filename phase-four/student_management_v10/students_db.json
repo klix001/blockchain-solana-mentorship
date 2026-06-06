@@ -1,0 +1,15 @@
+{
+  "students": {
+    "kelechi": {
+      "name": "kelechi",
+      "age": 20,
+      "score": 60.0
+    },
+    "kelvin": {
+      "name": "kelvin",
+      "age": 23,
+      "score": 33.9
+    }
+  },
+  "teachers": {}
+}
